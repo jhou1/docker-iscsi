@@ -4,6 +4,7 @@
 mkdir /run/dbus
 dbus-daemon --system
 
+# iscsi vars
 TARGET_NAME='iqn.2016-04.test.com:storage.target00'
 ACL_IQN='iqn.2016-04.test.com:test.img'
 AUTH_USER_ID=openshift
@@ -15,6 +16,8 @@ mkdir /iscsi_disks
 targetcli /backstores/fileio create disk01 /iscsi_disks/disk01.img 2G
 # Create iscsi target
 targetcli /iscsi create ${TARGET_NAME}
+# Set IP address of the target
+targetcli /iscsi/${TARGET_NAME}/tpg1/portals create `hostname -i`
 # Set LUN
 targetcli /iscsi/${TARGET_NAME}/tpg1/luns create /backstores/fileio/disk01
 # Set ACL
