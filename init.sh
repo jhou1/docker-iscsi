@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# enable dbus
+mkdir /run/dbus
+dbus-daemon --system
+
 TARGET_NAME='iqn.2016-04.test.com:storage.target00'
 ACL_IQN='iqn.2016-04.test.com:test.img'
 AUTH_USER_ID=openshift
