@@ -12,9 +12,9 @@ AUTH_PASSWORD=b0d324e9
 mkdir /iscsi_disks
 
 # Create backstores
-targetcli /backstores/fileio create disk01 /iscsi_disks disk01.img 2G
+targetcli /backstores/fileio create disk01 /iscsi_disks/disk01.img 2G
 # Create iscsi target
-targetcli create ${TARGET_NAME}
+targetcli /iscsi create ${TARGET_NAME}
 # Set LUN
 targetcli /iscsi/${TARGET_NAME}/tpg1/luns create /backstores/fileio/disk01
 # Set ACL
