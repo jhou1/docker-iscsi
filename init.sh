@@ -7,7 +7,7 @@ dbus-daemon --system
 # iscsi vars
 TARGET_NAME='iqn.2016-04.test.com:storage.target00'
 ACL_IQN='iqn.2016-04.test.com:test.img'
-AUTH_USER_ID=openshift
+AUTH_USER_ID=5f84cec2
 AUTH_PASSWORD=b0d324e9
 
 mkdir /iscsi_disks
