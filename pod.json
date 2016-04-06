@@ -23,8 +23,9 @@
                 "name": "iscsi",
                 "iscsi": {
                     "targetPortal": "10.2.0.2:3260",
-                    "iqn": "iqn.2016-04.test.com:test.img",
+                    "iqn": "iqn.2016-04.test.com:storage.target00",
                     "lun": 0,
+                    "iface": "default",
                     "fsType": "ext4",
                     "readOnly": false
                 }
