@@ -38,7 +38,3 @@ You should be able to successfully login.
 # Creating test pod
 
 After you have finished the setup for initiator, run `oc create -f pod.json`, you should be able to see your pod in `Running` status.
-
-## Issues
-
-Sometimes, I don't know why, the node just can not discover the target, the work around here is run `targetcli` on the node, delete the host and ip from portals directory, then recreate it, maybe I need to test it more. Will try to fix this issue later.
