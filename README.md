@@ -1,7 +1,7 @@
 ISCSI target pod for OpenShift testings.
 
 # Target Setup
-ISCSI target setup needs to run a privileged container with `SYS_MODULE` capability and `/lib/modules` mount directory, you can do this with:
+ISCSI target setup needs to run a privileged container with `SYS_MODULE` capability and `/lib/modules` mount directory. First edit the scc.yml, replace `YOUR_USERNAME` with your OpenShift login, then run:
 
 ```
 oc create -f scc.yml
@@ -26,15 +26,16 @@ EOF
 systemctl enable iscsid
 systemctl start iscsid
 ```
-After you have done the target setup, you should have got the iscsi-target pod ip, let's assume the ip is *10.2.0.2* iscsiadm -m discovery -t sendtargets -p on every node of your cluster run:
+
+After you have completed the target setup, you should have got the iscsi-target pod ip, let's assume the ip is *10.2.0.2*, then on every node of your cluster run:
 
 ```
 iscsiadm -m discovery -t sendtargets -p 10.2.0.2
-iscsiadm -m node --login
+iscsiadm -m node -p 10.2.0.2:3260 -T iqn.2016-04.test.com:storage.target01 -I default --login
 ```
 
 You should be able to successfully login.
 
 # Creating test pod
 
-After you have finished the setup for initiator, run `oc create -f pod.json`, you should be able to see your pod in `Running` status.
+After you have finished the setup for initiator, edit the `pod.json`, replace the `targetPortal` with your iscsi target pod ip, then `oc create -f pod.json`, you should be able to see your pod in `Running` status. Enter the pod with `oc rsh --shell=/bin/sh iscsi`, you should be able to read and write to the `/mnt/iscsi` directory in the pod.
