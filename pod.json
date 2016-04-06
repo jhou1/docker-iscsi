@@ -9,6 +9,9 @@
             {
                 "name": "iscsi",
                 "image": "aosqe/hello-openshift",
+                "securityContext": {
+                    "privileged": true
+                },
                 "imagePullPolicy": "IfNotPresent",
                 "volumeMounts": [
                     {
