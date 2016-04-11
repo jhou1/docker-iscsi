@@ -9,7 +9,7 @@
     },
     "spec": {
         "containers": [{
-            "name": "myfrontend",
+            "name": "iscsi",
             "image": "aosqe/hello-openshift",
             "imagePullPolicy": "IfNotPresent",
             "volumeMounts": [{
