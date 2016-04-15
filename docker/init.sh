@@ -17,6 +17,7 @@ targetcli /backstores/fileio create disk01 /iscsi_disks/disk01.img 2G
 # Create iscsi target
 targetcli /iscsi create ${TARGET_NAME}
 # Set IP address of the target
+targetcli /iscsi/${TARGET_NAME}/tpg1/portals delete 0.0.0.0 3260
 targetcli /iscsi/${TARGET_NAME}/tpg1/portals create `hostname -i`
 # Set LUN
 targetcli /iscsi/${TARGET_NAME}/tpg1/luns create /backstores/fileio/disk01
