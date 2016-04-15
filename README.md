@@ -31,7 +31,7 @@ After you have completed the target setup, you should have got the iscsi-target 
 
 ```
 iscsiadm -m discovery -t sendtargets -p 10.2.0.2
-iscsiadm -m node -p 10.2.0.2:3260 -T iqn.2016-04.test.com:storage.target01 -I default --login
+iscsiadm -m node -p 10.2.0.2:3260 -T iqn.2016-04.test.com:storage.target00 -I default --login
 ```
 
 You should be able to successfully login.
