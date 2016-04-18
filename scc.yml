@@ -33,4 +33,10 @@ seLinuxContext:
 supplementalGroups:
   type: RunAsAny
 volumes:
+- configMap
+- downwardAPI
+- emptyDir
+- hostPath
+- nfs
 - persistentVolumeClaim
+- secret
