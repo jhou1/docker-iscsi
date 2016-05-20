@@ -4,7 +4,7 @@
     "metadata": {
         "name": "iscsi-target",
         "labels": {
-            "role": "iscsi-target"
+            "storage": "iscsi-target"
         }
     },
     "spec": {
