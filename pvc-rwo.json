@@ -2,9 +2,10 @@
     "apiVersion": "v1",
     "kind": "PersistentVolumeClaim",
     "metadata": {
-        "name": "iscsic"
+        "name": "pvc-iscsi"
     },
     "spec": {
+        "volumeName": "pv-iscsi",
         "accessModes": [ "ReadWriteOnce" ],
         "resources": {
             "requests": {
