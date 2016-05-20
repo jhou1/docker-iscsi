@@ -14,7 +14,7 @@
         "containers": [
             {
                 "name": "iscsi-target",
-                "image": "jhou/iscsi",
+                "image": "aosqe/iscsi",
                 "securityContext": {
                     "privileged": true
                 },
