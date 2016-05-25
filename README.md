@@ -8,8 +8,6 @@ oc create -f scc.yml
 oc create -f iscsi-target.yml
 ```
 
-After your pod is created, run `oc get pod iscsi-target -o yaml | grep podIP`, the IP address will be used later for your initiator setup.
-
 ## Verify iscsi setup is successful
 
 After pod is `Running`, run `oc exec iscsi-target -- targetcli ls /iscsi/iqn.2016-04.test.com:storage.target00/tpg1`, you should see
@@ -22,11 +20,10 @@ o- portals  [Portals: 1]
 ```
 
 # Initiator Setup
+
 Initiator must be setup properly on every node of your cluster, run the following commands on your nodes:
 
 ```
-yum -y install iscsi-initiator-utils # Normally this isn't needed because installation already had it done
-
 echo 'InitiatorName=iqn.2016-04.test.com:test.img' > /etc/iscsi/initiatorname.iscsi
 
 cat >> /etc/iscsi/iscsid.conf <<EOF
@@ -39,6 +36,7 @@ systemctl enable iscsid
 systemctl start iscsid
 ```
 
+## Using iscsi-target podIP
 After you have completed the target setup, you should have got the iscsi-target pod ip, let's assume the ip is *10.2.0.2*, then on every node of your cluster run:
 
 ```
@@ -48,17 +46,43 @@ iscsiadm -m node -p 10.2.0.2:3260 -T iqn.2016-04.test.com:storage.target00 -I de
 
 You should be able to successfully login.
 
-# Making tests
+## Using service instead of podIP
 
-## Creating Persistent Volume and Claim
+you could also use a service ip instead of podIP.
 
-Update your Persistent Volume template, replace `#POD_IP#` with the iscsi-target pod ip. eg
+\1. Create the service
 
 ```
-sed -i s/#POD_IP#/10.2.0.2/ pv-rwo.json
+oc create -f service.json
+```
+
+\2. Get the service ip `oc get serivce iscsi-target`, assume the ip is `172.30.50.235`.
+
+\3. Create a portal in the `iscsi-target` pod using the service ip
+
+```
+oc exec iscsi-target -- targetcli /iscsi/iqn.2016-04.test.com:storage.target00/tpg1/portals create 172.30.50.235
+```
+
+\4. On nodes, configure iscsi initiator with the service ip
+
+```
+iscsiadm -m discovery -t sendtargets -p 172.30.50.235
+iscsiadm -m node -p 172.30.50.235:3260 -T iqn.2016-04.test.com:storage.target00 -I default --login
+```
+
+# Creating Persistent Volume and Claim
+
+Update your Persistent Volume template, set **targetPortal** to your podIP or service ip.
+
+```
 oc create -f pv-rwo.json
 oc create -f pvc-rwo.json
+oc get pv
+oc get pvc
 ```
+
+You should see PV and PVC are bound to each other.
 
 ## Creating tester pod
 
@@ -66,4 +90,4 @@ oc create -f pvc-rwo.json
 oc create -f pod.json
 ```
 
-Once your pod is `Running`, run `oc exec -it iscsi -- sh`, you should be able to access the mount dir `/mnt/iscsci`
+You should see your pod is `Running`.
