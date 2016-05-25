@@ -51,21 +51,21 @@ You should be able to successfully login.
 
 you could also use a service ip instead of podIP.
 
-1. Create the service
+1\. Create the service
 
 ```
 oc create -f service.json
 ```
 
-2. Get the service ip `oc get serivce iscsi-target`, assume the ip is `172.30.50.235`.
+2\. Get the service ip `oc get serivce iscsi-target`, assume the ip is `172.30.50.235`.
 
-3. Create a portal in the `iscsi-target` pod using the service ip
+3\. Create a portal in the `iscsi-target` pod using the service ip
 
 ```
 oc exec iscsi-target -- targetcli /iscsi/iqn.2016-04.test.com:storage.target00/tpg1/portals create 172.30.50.235
 ```
 
-4. On nodes, configure iscsi initiator with the service ip
+4\. On nodes, configure iscsi initiator with the service ip
 
 ```
 iscsiadm -m discovery -t sendtargets -p 172.30.50.235
