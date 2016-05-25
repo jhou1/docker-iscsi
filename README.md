@@ -36,7 +36,8 @@ systemctl enable iscsid
 systemctl start iscsid
 ```
 
-## Using iscsi-target podIP
+
+## Setup iscsi initiator with podIP
 After you have completed the target setup, you should have got the iscsi-target pod ip, let's assume the ip is *10.2.0.2*, then on every node of your cluster run:
 
 ```
@@ -46,25 +47,25 @@ iscsiadm -m node -p 10.2.0.2:3260 -T iqn.2016-04.test.com:storage.target00 -I de
 
 You should be able to successfully login.
 
-## Using service instead of podIP
+## Setup iscsi initiator with service
 
 you could also use a service ip instead of podIP.
 
-\1. Create the service
+1. Create the service
 
 ```
 oc create -f service.json
 ```
 
-\2. Get the service ip `oc get serivce iscsi-target`, assume the ip is `172.30.50.235`.
+2. Get the service ip `oc get serivce iscsi-target`, assume the ip is `172.30.50.235`.
 
-\3. Create a portal in the `iscsi-target` pod using the service ip
+3. Create a portal in the `iscsi-target` pod using the service ip
 
 ```
 oc exec iscsi-target -- targetcli /iscsi/iqn.2016-04.test.com:storage.target00/tpg1/portals create 172.30.50.235
 ```
 
-\4. On nodes, configure iscsi initiator with the service ip
+4. On nodes, configure iscsi initiator with the service ip
 
 ```
 iscsiadm -m discovery -t sendtargets -p 172.30.50.235
