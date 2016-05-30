@@ -22,7 +22,18 @@
                     "mountPath": "/lib/modules",
                     "name": "kernel"
                 }],
-                "imagePullPolicy": "IfNotPresent"
+                "imagePullPolicy": "IfNotPresent",
+                "livenessProbe": {
+                    "exec": {
+                        "command": [
+                            "targetcli",
+                            "ls",
+                            "/iscsi/iqn.2016-04.test.com:storage.target00/tpg1"
+                        ]
+                    },
+                    "initialDelaySeconds": 30,
+                    "timeoutSeconds": 1
+                }
             }
         ],
         "volumes": [{
