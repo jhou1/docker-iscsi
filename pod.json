@@ -10,7 +10,7 @@
     "spec": {
         "containers": [{
             "name": "iscsi",
-            "image": "aosqe/hello-openshift",
+            "image": "jhou/hello-openshift",
             "imagePullPolicy": "IfNotPresent",
             "volumeMounts": [{
                 "name": "iscsi",
