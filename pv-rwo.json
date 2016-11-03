@@ -10,13 +10,13 @@
     },
     "accessModes": [ "ReadWriteOnce" ],
     "iscsi": {
-        "targetPortal": "#POD_IP#:3260",
+        "targetPortal": "172.30.186.41:3260",
         "iqn": "iqn.2016-04.test.com:storage.target00",
         "lun": 0,
         "iface": "default",
         "fsType": "ext4",
         "readOnly": false
     },
-    "persistentVolumeReclaimPolicy": "Default"
+    "persistentVolumeReclaimPolicy": "Retain"
   }
 }
