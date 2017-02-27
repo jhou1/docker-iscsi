@@ -5,7 +5,7 @@ ISCSI target setup needs to run a privileged container with `SYS_MODULE` capabil
 
 ```
 oc create -f scc.yml
-oc create -f iscsi-target.yml
+oc create -f iscsi-target.json
 ```
 
 ## Verify iscsi setup is successful
@@ -57,7 +57,7 @@ you could also use a service ip instead of podIP.
 oc create -f service.json
 ```
 
-2\. Get the service ip `oc get serivce iscsi-target`, assume the ip is `172.30.50.235`.
+2\. Get the service ip `oc get service iscsi-target`, assume the ip is `172.30.50.235`.
 
 3\. Create a portal in the `iscsi-target` pod using the service ip
 
