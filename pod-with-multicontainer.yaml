@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: iscsipd-1
+spec:
+  containers:
+  - name: iscsipd-ro
+    image: aosqe/hello-openshift
+    ports:
+    - containerPort: 6379
+    volumeMounts:
+    - mountPath: "/mnt/iscsipd"
+      name: iscsipd-ro
+  - name: iscsipd-rw
+    image: aosqe/nfs-web
+    ports:
+    - containerPort: 80
+    volumeMounts:
+    - mountPath: "/mnt/iscsipd"
+      name: iscsipd-rw
+  volumes:
+  - name: iscsipd-ro
+    iscsi:
+      targetPortal: 172.30.152.248:3260
+      portals: ['172.30.152.248:3260', '172.30.141.225:3260']
+      iqn: iqn.2016-04.test.com:storage.target00
+      lun: 0
+      fsType: ext4
+      readOnly: true
+  - name: iscsipd-rw
+    iscsi:
+      targetPortal: 172.30.152.248:3260
+      portals: ['172.30.152.248:3260', '172.30.141.225:3260']
+      iqn: iqn.2016-04.test.com:storage.target00
+      lun: 0
+      fsType: ext4
+      readOnly: false
