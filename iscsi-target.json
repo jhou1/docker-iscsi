@@ -5,7 +5,10 @@
         "name": "iscsi-target",
         "labels": {
             "storage": "iscsi-target"
-        }
+        },
+	"annotations": {
+	    "openshift.io/description": "iscsi target"
+	}
     },
     "spec": {
         "selector": {
